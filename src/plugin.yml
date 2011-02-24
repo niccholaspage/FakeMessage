@@ -1,0 +1,5 @@
+name: FakeMessage
+
+main: com.niccholaspage.FakeMessage.FakeMessage
+
+version: 0.1
