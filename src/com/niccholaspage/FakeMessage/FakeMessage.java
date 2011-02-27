@@ -4,10 +4,8 @@ package com.niccholaspage.FakeMessage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import org.bukkit.Server;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.PluginManager;
 import com.nijikokun.bukkit.Permissions.Permissions;
@@ -27,10 +25,10 @@ public class FakeMessage extends JavaPlugin{
     public static PermissionHandler Permissions = null;
     
    
-	public FakeMessage(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader)
-    {
-        super(pluginLoader, instance, desc, folder, plugin, cLoader);
-      }
+	//public FakeMessage(PluginLoader pluginLoader, Server instance, PluginDescriptionFile desc, File folder, File plugin, ClassLoader cLoader)
+    //{
+     //   super(pluginLoader, instance, desc, folder, plugin, cLoader);
+      //}
 
 	@Override
 	//When the plugin is disabled this method is called.
@@ -62,9 +60,9 @@ public class FakeMessage extends JavaPlugin{
     	    	    }
     	}
     	// Reading from yml file
-    	String messageformat = _config.getString("FakeMessage.messageformat", "<name> message");
-    	String joingame = _config.getString("FakeMessage.joingame", "&ename has joined the game.");
-    	String leftgame = _config.getString("FakeMessage.leavegame", "&ename has left the game.");
+    	String messageformat = _config.getString("FakeMessage.messageformat", "<+name> +message");
+    	String joingame = _config.getString("FakeMessage.joingame", "&e+name has joined the game.");
+    	String leftgame = _config.getString("FakeMessage.leavegame", "&e+name has left the game.");
     	String dgroup = _config.getString("FakeMessage.defaultgroupname","Default");
     	messageformat = messageformat.replaceAll("&", "¤");
     	joingame = joingame.replaceAll("&", "¤");
@@ -75,9 +73,9 @@ public class FakeMessage extends JavaPlugin{
     	Plugin test = this.getServer().getPluginManager().getPlugin("Permissions");
 
 
-    	if(this.Permissions == null) {
+    	if(FakeMessage.Permissions == null) {
     	    if(test != null) {
-    		this.Permissions = ((Permissions)test).getHandler();
+    		FakeMessage.Permissions = ((Permissions)test).getHandler();
     	    } else {
     		System.out.println("Permission system not enabled. Disabling FakeMessage.");
     		this.getServer().getPluginManager().disablePlugin(this);

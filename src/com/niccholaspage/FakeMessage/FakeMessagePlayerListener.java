@@ -1,6 +1,7 @@
 //The Package
 package com.niccholaspage.FakeMessage;
 //All the imports
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerListener;
@@ -49,11 +50,14 @@ public class FakeMessagePlayerListener extends PlayerListener{
 			//Get the player that talked.
 			//Player player = event.getPlayer();
 			//If the first part of the string is /FakeMessage or /b then do this.
-			if ((split[0].equalsIgnoreCase("/fakemessage"))
-					|| (split[0].equalsIgnoreCase("/say"))) {
+			if (split[0].equalsIgnoreCase("/fsay")) {
 				Player player = event.getPlayer();
-				if (!plugin.Permissions.has(player, "fakemessage.say")) {
+				if (!FakeMessage.Permissions.has(player, "fakemessage.say")) {
 				    return;
+				}
+				if (!(split.length >= 3)){
+					player.sendMessage(ChatColor.RED + "/fsay playername message");
+					return;
 				}
 				split[0] = "";
 				String theguy = split[1];
@@ -61,17 +65,17 @@ public class FakeMessagePlayerListener extends PlayerListener{
 				String message = arrayToString(split, " ");
 				message = removeCharAt(message, 0);
 				String text = messageFormat;
-				text = text.replaceAll("name",theguy);
-				text = text.replaceAll("message", message);
-				text = text.replaceAll("group", dgroup);
+				text = text.replaceAll("\\+name",theguy);
+				text = text.replaceAll("\\+message", message);
+				text = text.replaceAll("\\+group", dgroup);
 				//plugin.getServer().broadcastMessage("[Default] " + theguy + ": " + message);
 				plugin.getServer().broadcastMessage(text);
 				event.setCancelled(false);
 			}
-			if ((split[0].equalsIgnoreCase("/groupfakemessage"))
+			/*if ((split[0].equalsIgnoreCase("/groupfakemessage"))
 					|| (split[0].equalsIgnoreCase("/gsay"))) {
 				Player player = event.getPlayer();
-				if (!plugin.Permissions.has(player, "fakemessage.gsay")) {
+				if (!FakeMessage.Permissions.has(player, "fakemessage.gsay")) {
 				    return;
 				}
 				split[0] = "";
@@ -87,12 +91,15 @@ public class FakeMessagePlayerListener extends PlayerListener{
 				text = text.replaceAll("group", thegroup);
 				plugin.getServer().broadcastMessage(text);
 				event.setCancelled(false);
-			}
-			if ((split[0].equalsIgnoreCase("/completefakemessage"))
-					|| (split[0].equalsIgnoreCase("/csay"))) {
+			}*/
+			if (split[0].equalsIgnoreCase("/fcsay")) {
 				Player player = event.getPlayer();
-				if (!plugin.Permissions.has(player, "fakemessage.csay")) {
+				if (!FakeMessage.Permissions.has(player, "fakemessage.csay")) {
 				    return;
+				}
+				if (!(split.length >= 2)){
+					player.sendMessage(ChatColor.RED + "/fcsay message");
+					return;
 				}
 				split[0] = "";
 				String message = arrayToString(split, " ");
@@ -100,27 +107,43 @@ public class FakeMessagePlayerListener extends PlayerListener{
 				message = message.replaceAll("~","¤");
 				plugin.getServer().broadcastMessage(message);
 			}
-			if ((split[0].equalsIgnoreCase("/join"))
-					|| (split[0].equalsIgnoreCase("/j"))) {
+			if ((split[0].equalsIgnoreCase("/fjoin"))
+					|| (split[0].equalsIgnoreCase("/fj"))) {
 				Player player = event.getPlayer();
-				if (!plugin.Permissions.has(player, "fakemessage.join")) {
+				if (!FakeMessage.Permissions.has(player, "fakemessage.join")) {
 				    return;
+				}
+				if (!(split.length >= 2)){
+					if (split[0].equalsIgnoreCase("/fjoin")){
+						player.sendMessage(ChatColor.RED + "/fjoin name");
+					}else {
+						player.sendMessage(ChatColor.RED + "/fj name");
+					}
+					return;
 				}
 				String theguy = split[1];
 				String text = joingame;
-				text = text.replaceAll("name", theguy);
+				text = text.replaceAll("\\+name", theguy);
 				plugin.getServer().broadcastMessage(text);
 				event.setCancelled(false);
 			}
-			if ((split[0].equalsIgnoreCase("/leave"))
-					|| (split[0].equalsIgnoreCase("/l"))) {
+			if ((split[0].equalsIgnoreCase("/fleave"))
+					|| (split[0].equalsIgnoreCase("/fl"))) {
 				Player player = event.getPlayer();
-				if (!plugin.Permissions.has(player, "fakemessage.leave")) {
+				if (!FakeMessage.Permissions.has(player, "fakemessage.leave")) {
 				    return;
+				}
+				if (!(split.length >= 2)){
+					if (split[0].equalsIgnoreCase("/fleave")){
+						player.sendMessage(ChatColor.RED + "/fleave name");
+					}else {
+						player.sendMessage(ChatColor.RED + "/fl name");
+					}
+					return;
 				}
 				String theguy = split[1];
 				String text = leavegame;
-				text = text.replaceAll("name", theguy);
+				text = text.replaceAll("\\+name", theguy);
 				plugin.getServer().broadcastMessage(text);
 				event.setCancelled(false);
 			}
