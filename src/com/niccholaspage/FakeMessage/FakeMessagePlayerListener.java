@@ -1,6 +1,8 @@
 package com.niccholaspage.FakeMessage;
 
 import com.nijiko.permissions.PermissionHandler;
+
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerListener;
@@ -47,12 +49,14 @@ public class FakeMessagePlayerListener extends PlayerListener
   public void onPlayerCommandPreprocess(PlayerChatEvent event)
   {
     String[] split = event.getMessage().split(" ");
-
-    if ((split[0].equalsIgnoreCase("/fakemessage")) || 
-      (split[0].equalsIgnoreCase("/say"))) {
-      Player player = event.getPlayer();
-      if (!FakeMessage.Permissions.has(player, "fakemessage.say")) {
-        return;
+    Player player = event.getPlayer();
+    if (split[0].equalsIgnoreCase("/fsay")) {
+        if (!(plugin.hasPermission(player, "fakemessage.say"))){
+        	return;
+        }
+      if (split.length < 3){
+    	  player.sendMessage(ChatColor.RED + split[0] + " name message");
+    	  return;
       }
       split[0] = "";
       String theguy = split[1];
@@ -66,11 +70,14 @@ public class FakeMessagePlayerListener extends PlayerListener
       plugin.getServer().broadcastMessage(text);
       event.setCancelled(false);
     }
-    if ((split[0].equalsIgnoreCase("/join")) || 
-      (split[0].equalsIgnoreCase("/j"))) {
-      Player player = event.getPlayer();
-      if (!FakeMessage.Permissions.has(player, "fakemessage.join")) {
-        return;
+    if ((split[0].equalsIgnoreCase("/fjoin")) || 
+      (split[0].equalsIgnoreCase("/fj"))) {
+        if (!(plugin.hasPermission(player, "fakemessage.join"))){
+        	return;
+        }
+      if (split.length < 2){
+    	  player.sendMessage(ChatColor.RED + split[0] + " name");
+    	  return;
       }
       String theguy = split[1];
       String text = joingame;
@@ -78,11 +85,14 @@ public class FakeMessagePlayerListener extends PlayerListener
       plugin.getServer().broadcastMessage(text);
       event.setCancelled(false);
     }
-    if ((split[0].equalsIgnoreCase("/leave")) || 
-      (split[0].equalsIgnoreCase("/l"))) {
-      Player player = event.getPlayer();
-      if (!FakeMessage.Permissions.has(player, "fakemessage.leave")) {
-        return;
+    if ((split[0].equalsIgnoreCase("/fleave")) || 
+      (split[0].equalsIgnoreCase("/fl"))) {
+        if (!(plugin.hasPermission(player, "fakemessage.leave"))){
+        	return;
+        }
+      if (split.length < 2){
+    	  player.sendMessage(ChatColor.RED + split[0] + " name");
+    	  return;
       }
       String theguy = split[1];
       String text = leavegame;

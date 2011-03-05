@@ -3,6 +3,8 @@ package com.niccholaspage.FakeMessage;
 import com.nijiko.permissions.PermissionHandler;
 import com.nijikokun.bukkit.Permissions.Permissions;
 import java.io.File;
+
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -40,9 +42,19 @@ public class FakeMessage extends JavaPlugin
       if (test != null) {
         Permissions = ((Permissions)test).getHandler();
       } else {
-        System.out.println("Permission system not enabled. Disabling FakeMessage.");
-        getServer().getPluginManager().disablePlugin(this);
+        System.out.println("Permission system not enabled. FakeMessage commands will only work for OPs.");
       }
+  }
+  
+  public Boolean hasPermission(Player player, String node){
+      if (!(Permissions == null)){
+          if (FakeMessage.Permissions.has(player, "fakemessage.leave")) {
+            return true;
+          }
+      }else if (player.isOp() == true){
+    	  return true;
+      }
+      return false;
   }
 
   public void onEnable()
