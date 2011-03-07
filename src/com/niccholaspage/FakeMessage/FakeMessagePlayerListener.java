@@ -1,7 +1,4 @@
 package com.niccholaspage.FakeMessage;
-
-import com.nijiko.permissions.PermissionHandler;
-
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
@@ -10,7 +7,6 @@ import org.bukkit.event.player.PlayerListener;
 public class FakeMessagePlayerListener extends PlayerListener
 {
   public static FakeMessage plugin;
-  public static PermissionHandler Permissions = null;
   private static String messageFormat;
   private static String joingame;
   private static String leavegame;
