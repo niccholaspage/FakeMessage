@@ -72,6 +72,28 @@ public class FakeMessagePlayerListener extends PlayerListener
         if (!(plugin.hasPermission(player, "fakemessage.message"))){
         	return;
         }
+        if (split.length < 4){
+      	  player.sendMessage(ChatColor.RED + split[0] + " name fakename message");
+      	  return;
+        }
+        split[0] = "";
+        String person = split[1];
+        String theguy = split[2];
+        split[1] = "";
+        split[2] = "";
+        String message = arrayToString(split, " ");
+        message = removeCharAt(message, 0);
+        String text = privateMessageFormat;
+        text = text.replaceAll("name", theguy);
+        text = text.replaceAll("message", message);
+        for (int i = 0; i < plugin.getServer().getOnlinePlayers().length; i++){
+        	if (plugin.getServer().getOnlinePlayers()[i].getDisplayName().toLowerCase().startsWith(person)){
+        		plugin.getServer().getOnlinePlayers()[i].sendMessage(text);
+        		player.sendMessage("Sent message to " + plugin.getServer().getOnlinePlayers()[i].getDisplayName() + ".");
+        		return;
+        	}
+        }
+        player.sendMessage("No user with that name exists!");
     }
     if ((split[0].equalsIgnoreCase("/fjoin")) || 
       (split[0].equalsIgnoreCase("/fj"))) {
