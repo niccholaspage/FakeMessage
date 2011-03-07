@@ -8,6 +8,7 @@ public class FakeMessagePlayerListener extends PlayerListener
 {
   public static FakeMessage plugin;
   private static String messageFormat;
+  private static String privateMessageFormat;
   private static String joingame;
   private static String leavegame;
 
@@ -30,9 +31,10 @@ public class FakeMessagePlayerListener extends PlayerListener
     return result.toString();
   }
 
-  public static void setMessages(String mf, String jg, String lg)
+  public static void setMessages(String mf, String pmf, String jg, String lg)
   {
     messageFormat = mf;
+    privateMessageFormat = pmf;
     joingame = jg;
     leavegame = lg;
   }
@@ -65,6 +67,11 @@ public class FakeMessagePlayerListener extends PlayerListener
 
       plugin.getServer().broadcastMessage(text);
       event.setCancelled(false);
+    }
+    if (split[0].equalsIgnoreCase("/fmsg")){
+        if (!(plugin.hasPermission(player, "fakemessage.message"))){
+        	return;
+        }
     }
     if ((split[0].equalsIgnoreCase("/fjoin")) || 
       (split[0].equalsIgnoreCase("/fj"))) {

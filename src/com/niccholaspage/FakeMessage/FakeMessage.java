@@ -28,12 +28,14 @@ public class FakeMessage extends JavaPlugin
     _config.load();
 
     String messageformat = _config.getString("FakeMessage.messageformat", "<name> message");
+    String privatemessageformat = _config.getString("FakeMessage.privatemessageformat", "(MSG) <name> message");
     String joingame = _config.getString("FakeMessage.joingame", "&ename has joined the game.");
     String leftgame = _config.getString("FakeMessage.leavegame", "&ename has left the game.");
     messageformat = messageformat.replaceAll("&", "¤");
+    privatemessageformat = privatemessageformat.replaceAll("&", "¤");
     joingame = joingame.replaceAll("&", "¤");
     leftgame = leftgame.replaceAll("&", "¤");
-    FakeMessagePlayerListener.setMessages(messageformat, joingame, leftgame);
+    FakeMessagePlayerListener.setMessages(messageformat, privatemessageformat, joingame, leftgame);
   }
   public void setupPermissions() {
     Plugin test = getServer().getPluginManager().getPlugin("Permissions");
