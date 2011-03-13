@@ -87,9 +87,9 @@ public class FakeMessagePlayerListener extends PlayerListener
         text = text.replaceAll("name", theguy);
         text = text.replaceAll("message", message);
         for (int i = 0; i < plugin.getServer().getOnlinePlayers().length; i++){
-        	if (plugin.getServer().getOnlinePlayers()[i].getDisplayName().toLowerCase().startsWith(person.toLowerCase())){
+        	if (plugin.getServer().getOnlinePlayers()[i].getName().toLowerCase().startsWith(person.toLowerCase())){
         		plugin.getServer().getOnlinePlayers()[i].sendMessage(text);
-        		player.sendMessage("Sent message to " + plugin.getServer().getOnlinePlayers()[i].getDisplayName() + ".");
+        		player.sendMessage("Sent message to " + plugin.getServer().getOnlinePlayers()[i].getName() + ".");
         		return;
         	}
         }
