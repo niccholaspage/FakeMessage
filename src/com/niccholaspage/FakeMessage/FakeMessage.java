@@ -88,7 +88,9 @@ public class FakeMessage extends JavaPlugin
 	  return str.replace("+name", name).replace("+message", message).replace("&", "¤");
   }
   
-  public Boolean hasPermission(Player player, String node){
+  public Boolean hasPermission(CommandSender sender, String node){
+	  if (sender instanceof Player){
+		  Player player = (Player) sender;
       if (!(Permissions == null)){
           if (FakeMessage.Permissions.has(player, node)) {
             return true;
@@ -97,6 +99,9 @@ public class FakeMessage extends JavaPlugin
     	  return true;
       }
       return false;
+	  }else {
+		  return true;
+	  }
   }
   
   public Player getPlayerStartsWith(String startsWith){
@@ -119,9 +124,7 @@ public class FakeMessage extends JavaPlugin
     readConfig();
     setupPermissions();
   }
-  public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-	  if (sender instanceof Player){
-		  Player player = (Player) sender;
+  public boolean onCommand(CommandSender player, Command cmd, String commandLabel, String[] args) {
 		  ArrayList<String> Args = new ArrayList<String>();
 		  for (int i = 0; i < args.length; i++){
 			  Args.add(args[i]);
@@ -147,7 +150,6 @@ public class FakeMessage extends JavaPlugin
 			  Args.remove(0);
 			  if (!(getPlayerStartsWith(args[0]) == null)) getPlayerStartsWith(args[0]).sendMessage(formatMessage(privateMessageFormat, args[1], arrayListToString(Args, " "))); else player.sendMessage(ChatColor.RED + "That user doesn't exist!");
 		  }
-	  }
 	  return true;
   }
 }
