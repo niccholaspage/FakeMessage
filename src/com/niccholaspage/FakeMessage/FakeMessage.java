@@ -134,9 +134,8 @@ public class FakeMessage extends JavaPlugin
 		  if (cmd.getName().equalsIgnoreCase("fsay")){
 			  if (!(hasPermission(player, "fakemessage.say"))) return true;
 			  if (args.length < 2) return false;
-			  String name = Args.get(0);
 			  Args.remove(0);
-			  getServer().broadcastMessage(formatMessage(messageFormat, name, arrayListToString(Args, " ")));
+			  getServer().broadcastMessage(formatMessage(messageFormat, args[0], arrayListToString(Args, " ")));
 		  }else if ((cmd.getName().equalsIgnoreCase("fjoin")) || (cmd.getName().equalsIgnoreCase("fj"))){
 			  if (!(hasPermission(player, "fakemessage.join"))) return true;
 			  //TODO: Without any arguments, make the player who called it join
