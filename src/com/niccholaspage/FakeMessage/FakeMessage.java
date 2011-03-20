@@ -19,7 +19,6 @@ import org.bukkit.util.config.Configuration;
 
 public class FakeMessage extends JavaPlugin
 {
-  //private final FakeMessagePlayerListener playerListener = new FakeMessagePlayerListener(this);
   public static PermissionHandler Permissions = null;
   static String messageFormat;
   static String privateMessageFormat;
@@ -112,11 +111,7 @@ public class FakeMessage extends JavaPlugin
   	return null;
   }
 
-  public void onEnable()
-  {
-    //PluginManager pm = getServer().getPluginManager();
-
-    //pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, this.playerListener, Event.Priority.Normal, this);
+  public void onEnable(){
 
     PluginDescriptionFile pdfFile = getDescription();
 
