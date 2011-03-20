@@ -133,6 +133,7 @@ public class FakeMessage extends JavaPlugin
 			  if (!(hasPermission(player, "fakemessage.say"))) return true;
 			  if (args.length < 2) return false;
 			  Args.remove(0);
+			  System.out.println(formatMessage(messageFormat, args[0], arrayListToString(Args, " ")));
 			  getServer().broadcastMessage(formatMessage(messageFormat, args[0], arrayListToString(Args, " ")));
 		  }else if ((cmd.getName().equalsIgnoreCase("fjoin")) || (cmd.getName().equalsIgnoreCase("fj"))){
 			  if (!(hasPermission(player, "fakemessage.join"))) return true;
