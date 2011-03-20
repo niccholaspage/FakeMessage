@@ -145,9 +145,9 @@ public class FakeMessage extends JavaPlugin
 			  if (args.length < 1) return false;
 			  getServer().broadcastMessage(formatMessage(leftGame, args[0], ""));
 		  }else if (cmd.getName().equalsIgnoreCase("fmsg")){
-			  if (!(hasPermission(player, "fakemessage.msg"))) return true;
+			  if (!(hasPermission(player, "fakemessage.message"))) return true;
 			  if (args.length < 3) return false;
-			  Args.remove(0);
+			  Args = new ArrayList<String>(Args.subList(2, Args.size()));
 			  if (!(getPlayerStartsWith(args[0]) == null)) getPlayerStartsWith(args[0]).sendMessage(formatMessage(privateMessageFormat, args[1], arrayListToString(Args, " "))); else player.sendMessage(ChatColor.RED + "That user doesn't exist!");
 		  }
 	  return true;
