@@ -3,3 +3,23 @@ name: FakeMessage
 main: com.niccholaspage.FakeMessage.FakeMessage
 
 version: 0.3
+
+commands:
+  fsay:
+    description: Fakes a chat message
+    usage: /fsay name message
+  fjoin:
+    description: Fakes a join message
+    usage: /fjoin name
+  fleave:
+    description: Fakes a leave message
+    usage: /fleave name
+  fj:
+    description: Alias to /fjoin
+    usage: /fj name
+  fl:
+    description: Alias to /fleave
+    usage: /fl name
+  fmsg:
+    description: Fakes a personal message
+    usage: /fmsg toplayer name message
