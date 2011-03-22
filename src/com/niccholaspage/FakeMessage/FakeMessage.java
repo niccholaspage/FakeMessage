@@ -85,7 +85,9 @@ public class FakeMessage extends JavaPlugin
   }
   
   public String formatMessage(String str, String name, String message){
-	  return str.replace("+name", name).replace("+message", message).replace("&", "¤");
+	  String out = str.replace("+name", name).replace("+message", message).replace("&", "¤");
+	  System.out.println(out);
+	  return out;
   }
   
   public Boolean hasPermission(CommandSender sender, String node){
@@ -133,7 +135,6 @@ public class FakeMessage extends JavaPlugin
 			  if (!(hasPermission(player, "fakemessage.say"))) return true;
 			  if (args.length < 2) return false;
 			  Args.remove(0);
-			  System.out.println(formatMessage(messageFormat, args[0], arrayListToString(Args, " ")));
 			  getServer().broadcastMessage(formatMessage(messageFormat, args[0], arrayListToString(Args, " ")));
 		  }else if ((cmd.getName().equalsIgnoreCase("fjoin")) || (cmd.getName().equalsIgnoreCase("fj"))){
 			  if (!(hasPermission(player, "fakemessage.join"))) return true;
