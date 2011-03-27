@@ -84,9 +84,9 @@ public class FakeMessage extends JavaPlugin
 	  return ret;
   }
   
-  public String formatMessage(String str, String name, String message){
+  public String formatMessage(String str, String name, String message, boolean display){
 	  String out = str.replace("+name", name).replace("+message", message).replace("&", "¤");
-	  System.out.println(out);
+	  if (display) System.out.println(out);
 	  return out;
   }
   
@@ -135,22 +135,22 @@ public class FakeMessage extends JavaPlugin
 			  if (!(hasPermission(player, "fakemessage.say"))) return true;
 			  if (args.length < 2) return false;
 			  Args.remove(0);
-			  getServer().broadcastMessage(formatMessage(messageFormat, args[0], arrayListToString(Args, " ")));
+			  getServer().broadcastMessage(formatMessage(messageFormat, args[0], arrayListToString(Args, " "),true));
 		  }else if ((cmd.getName().equalsIgnoreCase("fjoin")) || (cmd.getName().equalsIgnoreCase("fj"))){
 			  if (!(hasPermission(player, "fakemessage.join"))) return true;
 			  //TODO: Without any arguments, make the player who called it join
 			  if (args.length < 1) return false;
-			  getServer().broadcastMessage(formatMessage(joinGame, args[0], ""));
+			  getServer().broadcastMessage(formatMessage(joinGame, args[0], "", true));
 		  }else if ((cmd.getName().equalsIgnoreCase("fleave")) || (cmd.getName().equalsIgnoreCase("fl"))){
 			  if (!(hasPermission(player, "fakemessage.leave"))) return true;
 			  //TODO: Without any arguments, make the player who called it leave
 			  if (args.length < 1) return false;
-			  getServer().broadcastMessage(formatMessage(leftGame, args[0], ""));
+			  getServer().broadcastMessage(formatMessage(leftGame, args[0], "", true));
 		  }else if (cmd.getName().equalsIgnoreCase("fmsg")){
 			  if (!(hasPermission(player, "fakemessage.message"))) return true;
 			  if (args.length < 3) return false;
 			  Args = new ArrayList<String>(Args.subList(2, Args.size()));
-			  if (!(getPlayerStartsWith(args[0]) == null)) getPlayerStartsWith(args[0]).sendMessage(formatMessage(privateMessageFormat, args[1], arrayListToString(Args, " "))); else player.sendMessage(ChatColor.RED + "That user doesn't exist!");
+			  if (!(getPlayerStartsWith(args[0]) == null)) getPlayerStartsWith(args[0]).sendMessage(formatMessage(privateMessageFormat, args[1], arrayListToString(Args, " "), false)); else player.sendMessage(ChatColor.RED + "That user doesn't exist!");
 		  }
 	  return true;
   }
