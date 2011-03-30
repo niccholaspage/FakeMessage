@@ -7,9 +7,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
-
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -20,10 +17,10 @@ import org.bukkit.util.config.Configuration;
 public class FakeMessage extends JavaPlugin
 {
   public static PermissionHandler Permissions = null;
-  static String messageFormat;
-  static String privateMessageFormat;
-  static String joinGame;
-  static String leftGame;
+  String messageFormat;
+  String privateMessageFormat;
+  String joinGame;
+  String leftGame;
 
   public void onDisable()
   {
@@ -119,39 +116,20 @@ public class FakeMessage extends JavaPlugin
   }
 
   public void onEnable(){
-
     PluginDescriptionFile pdfFile = getDescription();
 
     System.out.println(pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!");
     readConfig();
     setupPermissions();
+    registerCommands();
   }
-  public boolean onCommand(CommandSender player, Command cmd, String commandLabel, String[] args) {
-		  ArrayList<String> Args = new ArrayList<String>();
-		  for (int i = 0; i < args.length; i++){
-			  Args.add(args[i]);
-		  }
-		  if (cmd.getName().equalsIgnoreCase("fsay")){
-			  if (!(hasPermission(player, "fakemessage.say"))) return true;
-			  if (args.length < 2) return false;
-			  Args.remove(0);
-			  getServer().broadcastMessage(formatMessage(messageFormat, args[0], arrayListToString(Args, " "),true));
-		  }else if ((cmd.getName().equalsIgnoreCase("fjoin")) || (cmd.getName().equalsIgnoreCase("fj"))){
-			  if (!(hasPermission(player, "fakemessage.join"))) return true;
-			  //TODO: Without any arguments, make the player who called it join
-			  if (args.length < 1) return false;
-			  getServer().broadcastMessage(formatMessage(joinGame, args[0], "", true));
-		  }else if ((cmd.getName().equalsIgnoreCase("fleave")) || (cmd.getName().equalsIgnoreCase("fl"))){
-			  if (!(hasPermission(player, "fakemessage.leave"))) return true;
-			  //TODO: Without any arguments, make the player who called it leave
-			  if (args.length < 1) return false;
-			  getServer().broadcastMessage(formatMessage(leftGame, args[0], "", true));
-		  }else if (cmd.getName().equalsIgnoreCase("fmsg")){
-			  if (!(hasPermission(player, "fakemessage.message"))) return true;
-			  if (args.length < 3) return false;
-			  Args = new ArrayList<String>(Args.subList(2, Args.size()));
-			  if (!(getPlayerStartsWith(args[0]) == null)) getPlayerStartsWith(args[0]).sendMessage(formatMessage(privateMessageFormat, args[1], arrayListToString(Args, " "), false)); else player.sendMessage(ChatColor.RED + "That user doesn't exist!");
-		  }
-	  return true;
+  private void registerCommands(){
+	  CommandHandler commandHandler = new CommandHandler(this);
+	  getCommand("fsay").setExecutor(commandHandler);
+	  getCommand("fjoin").setExecutor(commandHandler);
+	  getCommand("fleave").setExecutor(commandHandler);
+	  getCommand("fj").setExecutor(commandHandler);
+	  getCommand("fl").setExecutor(commandHandler);
+	  getCommand("fmsg").setExecutor(commandHandler);
   }
 }
