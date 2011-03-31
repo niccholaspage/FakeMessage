@@ -9,6 +9,8 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerListener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,6 +19,8 @@ import org.bukkit.util.config.Configuration;
 public class FakeMessage extends JavaPlugin
 {
   public static PermissionHandler Permissions = null;
+  public FakeMessagePlayerListener playerListener = new FakeMessagePlayerListener(this);
+  public CommandHandler commandHandler = new CommandHandler(this);
   String messageFormat;
   String privateMessageFormat;
   String joinGame;
@@ -117,6 +121,7 @@ public class FakeMessage extends JavaPlugin
 
   public void onEnable(){
     PluginDescriptionFile pdfFile = getDescription();
+    
 
     System.out.println(pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!");
     readConfig();
@@ -124,7 +129,6 @@ public class FakeMessage extends JavaPlugin
     registerCommands();
   }
   private void registerCommands(){
-	  CommandHandler commandHandler = new CommandHandler(this);
 	  getCommand("fsay").setExecutor(commandHandler);
 	  getCommand("fjoin").setExecutor(commandHandler);
 	  getCommand("fleave").setExecutor(commandHandler);
@@ -132,4 +136,14 @@ public class FakeMessage extends JavaPlugin
 	  getCommand("fl").setExecutor(commandHandler);
 	  getCommand("fmsg").setExecutor(commandHandler);
   }
+}
+
+class FakeMessagePlayerListener extends PlayerListener {
+	public static FakeMessage pl;
+	public FakeMessagePlayerListener(FakeMessage instance) {
+		pl = instance;
+	}
+	public void onPlayerChat(PlayerChatEvent event){
+		pl.commandHandler.onPlayerChat(event);
+	}
 }

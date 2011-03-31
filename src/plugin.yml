@@ -23,3 +23,6 @@ commands:
   fmsg:
     description: Fakes a personal message
     usage: /fmsg toplayer name message
+  fswitch:
+    description: 
+    usage: /fswitch name

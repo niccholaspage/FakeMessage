@@ -1,17 +1,21 @@
 package com.niccholaspage.FakeMessage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerChatEvent;
 
 public class CommandHandler implements CommandExecutor {
 	public static FakeMessage pl;
 	public CommandHandler(FakeMessage instance) {
 		pl = instance;
 	}
+	HashMap<Player, String> players = new HashMap<Player, String>();
 	  public boolean onCommand(CommandSender player, Command cmd, String commandLabel, String[] args) {
 		  ArrayList<String> Args = new ArrayList<String>();
 		  for (int i = 0; i < args.length; i++){
@@ -37,7 +41,26 @@ public class CommandHandler implements CommandExecutor {
 			  if (args.length < 3) return false;
 			  Args = new ArrayList<String>(Args.subList(2, Args.size()));
 			  if (!(pl.getPlayerStartsWith(args[0]) == null)) pl.getPlayerStartsWith(args[0]).sendMessage(pl.formatMessage(pl.privateMessageFormat, args[1], pl.arrayListToString(Args, " "), false)); else player.sendMessage(ChatColor.RED + "That user doesn't exist!");
+		  }else if (cmd.getName().equalsIgnoreCase("fswitch")){
+			  if (!(pl.hasPermission(player, "fakemessage.switch"))) return true;
+			  if (args.length < 1){
+				  if (players.containsKey((Player)player)){
+					  players.remove(player);
+				  }else {
+					  return false;
+				  }
+			  }
+			  if ((player instanceof Player)){
+				  player.sendMessage("Only players are supported right now.");
+				  return true;
+			  }
+			  players.put((Player)player, args[1]);
 		  }
 	  return true;
   }
+	  public void onPlayerChat(PlayerChatEvent event){
+		  if (players.containsKey(event.getPlayer())) return;
+		  pl.getServer().broadcastMessage(pl.formatMessage(pl.messageFormat, players.get(event.getPlayer()), event.getMessage(), true));
+		  event.setCancelled(true);
+	  }
 }
