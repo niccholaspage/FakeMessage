@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.plugin.Plugin;
@@ -122,6 +123,7 @@ public class FakeMessage extends JavaPlugin
   public void onEnable(){
     PluginDescriptionFile pdfFile = getDescription();
     
+    getServer().getPluginManager().registerEvent(Event.Type.PLAYER_CHAT, playerListener, Event.Priority.Monitor, this);
 
     System.out.println(pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!");
     readConfig();
