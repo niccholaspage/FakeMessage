@@ -137,6 +137,7 @@ public class FakeMessage extends JavaPlugin
 	  getCommand("fj").setExecutor(commandHandler);
 	  getCommand("fl").setExecutor(commandHandler);
 	  getCommand("fmsg").setExecutor(commandHandler);
+	  getCommand("fswitch").setExecutor(commandHandler);
   }
 }
 

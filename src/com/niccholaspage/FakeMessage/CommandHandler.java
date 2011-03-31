@@ -15,7 +15,7 @@ public class CommandHandler implements CommandExecutor {
 	public CommandHandler(FakeMessage instance) {
 		pl = instance;
 	}
-	HashMap<Player, String> players = new HashMap<Player, String>();
+	HashMap<String, String> players = new HashMap<String, String>();
 	  public boolean onCommand(CommandSender player, Command cmd, String commandLabel, String[] args) {
 		  ArrayList<String> Args = new ArrayList<String>();
 		  for (int i = 0; i < args.length; i++){
@@ -43,24 +43,26 @@ public class CommandHandler implements CommandExecutor {
 			  if (!(pl.getPlayerStartsWith(args[0]) == null)) pl.getPlayerStartsWith(args[0]).sendMessage(pl.formatMessage(pl.privateMessageFormat, args[1], pl.arrayListToString(Args, " "), false)); else player.sendMessage(ChatColor.RED + "That user doesn't exist!");
 		  }else if (cmd.getName().equalsIgnoreCase("fswitch")){
 			  if (!(pl.hasPermission(player, "fakemessage.switch"))) return true;
+			  if (!(player instanceof Player)){
+				  player.sendMessage("Only players are supported right now.");
+				  return true;
+			  }
 			  if (args.length < 1){
-				  if (players.containsKey((Player)player)){
-					  players.remove(player);
+				  Player pla = (Player) player;
+				  if (players.containsKey(pla.getName())){
+					  players.remove(pla.getName());
+					  return true;
 				  }else {
 					  return false;
 				  }
 			  }
-			  if ((player instanceof Player)){
-				  player.sendMessage("Only players are supported right now.");
-				  return true;
-			  }
-			  players.put((Player)player, args[1]);
+			  Player pla = (Player) player;
+			  players.put(pla.getName(), args[0]);
 		  }
 	  return true;
   }
 	  public void onPlayerChat(PlayerChatEvent event){
-		  if (players.containsKey(event.getPlayer())) return;
-		  pl.getServer().broadcastMessage(pl.formatMessage(pl.messageFormat, players.get(event.getPlayer()), event.getMessage(), true));
-		  event.setCancelled(true);
+		  if (!(players.containsKey(event.getPlayer().getName()))) return;
+		  event.setFormat(pl.formatMessage(pl.messageFormat, players.get(event.getPlayer().getName()), event.getMessage(), true));
 	  }
 }
