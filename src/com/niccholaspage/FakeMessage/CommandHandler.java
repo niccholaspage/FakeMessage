@@ -55,6 +55,7 @@ public class CommandHandler implements CommandExecutor {
 					  return false;
 				  }
 			  }
+			  if (players.containsKey(((Player)player).getName())) players.remove(((Player)player).getName());
 			  players.put(((Player)player).getName(), args[0]);
 		  }
 	  return true;
