@@ -160,8 +160,6 @@ public class FakeMessage extends JavaPlugin
 	  getCommand("fsay").setExecutor(commandHandler);
 	  getCommand("fjoin").setExecutor(commandHandler);
 	  getCommand("fleave").setExecutor(commandHandler);
-	  getCommand("fj").setExecutor(commandHandler);
-	  getCommand("fl").setExecutor(commandHandler);
 	  getCommand("fmsg").setExecutor(commandHandler);
 	  getCommand("fswitch").setExecutor(commandHandler);
   }

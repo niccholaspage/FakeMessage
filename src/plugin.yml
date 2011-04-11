@@ -7,22 +7,18 @@ version: 0.4
 commands:
   fsay:
     description: Fakes a chat message
-    usage: /fsay name message
+    usage: /<command> name message
   fjoin:
     description: Fakes a join message
-    usage: /fjoin name
+    usage: /<command> name
+    aliases: fj
   fleave:
     description: Fakes a leave message
-    usage: /fleave name
-  fj:
-    description: Alias to /fjoin
-    usage: /fj name
-  fl:
-    description: Alias to /fleave
-    usage: /fl name
+    usage: /<command> name
+    aliases: fl
   fmsg:
     description: Fakes a personal message
-    usage: /fmsg toplayer name message
+    usage: /<command> toplayer name message
   fswitch:
     description: 
-    usage: /fswitch name
+    usage: /<command> name
