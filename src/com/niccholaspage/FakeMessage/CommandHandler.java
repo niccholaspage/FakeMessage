@@ -50,7 +50,7 @@ public class CommandHandler implements CommandExecutor {
 			  if (args.length < 1){
 				  if (players.containsKey(((Player)player).getName())){
 					  players.remove(((Player)player).getName());
-					  player.sendMessage(ChatColor.GREEN + "You are now not faking anything.");
+					  player.sendMessage(ChatColor.GREEN + "You are now not faking anybody.");
 					  return true;
 				  }else {
 					  return false;
