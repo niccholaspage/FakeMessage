@@ -40,7 +40,7 @@ public class CommandHandler implements CommandExecutor {
 			  if (!(pl.hasPermission(player, "fakemessage.message"))) return true;
 			  if (args.length < 3) return false;
 			  Args = new ArrayList<String>(Args.subList(2, Args.size()));
-			  if (!(pl.getPlayerStartsWith(args[0]) == null)) pl.getPlayerStartsWith(args[0]).sendMessage(pl.formatMessage(pl.privateMessageFormat, args[1], pl.arrayListToString(Args, " "), false)); else player.sendMessage(ChatColor.RED + "That user doesn't exist!");
+			  if (!(pl.getPlayerStartsWith(args[0]) == null)) pl.getPlayerStartsWith(args[0].toLowerCase()).sendMessage(pl.formatMessage(pl.privateMessageFormat, args[1], pl.arrayListToString(Args, " "), false)); else player.sendMessage(ChatColor.RED + "That user doesn't exist!");
 		  }else if (cmd.getName().equalsIgnoreCase("fswitch")){
 			  if (!(pl.hasPermission(player, "fakemessage.switch"))) return true;
 			  if (!(player instanceof Player)){
