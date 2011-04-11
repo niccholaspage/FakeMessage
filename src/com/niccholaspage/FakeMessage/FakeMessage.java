@@ -7,7 +7,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
+
+import net.minecraft.server.EntityPlayer;
+import net.minecraft.server.ItemInWorldManager;
+
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerChatEvent;
@@ -87,7 +93,33 @@ public class FakeMessage extends JavaPlugin
   }
   
   public String formatMessage(String str, String name, String message, boolean display){
-	  String out = str.replace("+name", name).replace("+message", message).replace("&", "¤");
+	  Player player;
+	  if (getServer().getPlayer(name) == null){
+		  CraftServer cServer = (CraftServer)getServer();
+		  CraftWorld cWorld = (CraftWorld)getServer().getWorlds().get(0);
+		  EntityPlayer fakeEntityPlayer = new EntityPlayer(cServer.getHandle().c,cWorld.getHandle(),name,new ItemInWorldManager(cWorld.getHandle()));
+		  player = (Player)fakeEntityPlayer.getBukkitEntity();
+	  }else {
+		  player = getServer().getPlayer(name);
+	  }
+	  String out = str.replace("+name", name).replace("+message", message);
+	  if (!(Permissions == null)){
+		  String world = player.getWorld().getName();
+		  String group = Permissions.getGroup(world, player.getName());
+		  String prefix = Permissions.getGroupPrefix(world, group);
+		  String suffix = Permissions.getGroupSuffix(world, group);
+		  String userPrefix = Permissions.getPermissionString(world, player.getName(), "prefix");
+		  String userSuffix = Permissions.getPermissionString(world, player.getName(), "suffix");
+		  if (userPrefix != null) prefix = userPrefix;
+		  if (userSuffix != null) suffix = userSuffix;
+		  if (prefix == null) prefix = "";
+		  if (suffix == null) suffix = "";
+		  out = out.replace("+group", group);
+		  out = out.replace("+prefix", prefix);
+		  out = out.replace("+suffix", suffix);
+		  out = out.replace("+world", world);
+	  }
+	  out = out.replace("&", "¤");
 	  if (display) System.out.println(out);
 	  return out;
   }
@@ -96,16 +128,10 @@ public class FakeMessage extends JavaPlugin
 	  if (sender instanceof Player){
 		  Player player = (Player) sender;
       if (!(Permissions == null)){
-          if (FakeMessage.Permissions.has(player, node)) {
-            return true;
-          }
-      }else if (player.isOp() == true){
-    	  return true;
-      }
+          if (FakeMessage.Permissions.has(player, node)) return true;
+      }else if (player.isOp() == true) return true;
       return false;
-	  }else {
-		  return true;
-	  }
+	  }else return true;
   }
   
   public Player getPlayerStartsWith(String startsWith){
