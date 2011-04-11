@@ -102,7 +102,7 @@ public class FakeMessage extends JavaPlugin
 	  }else {
 		  player = getServer().getPlayer(name);
 	  }
-	  String out = str.replace("+name", name).replace("+message", message);
+	  String out = str.replace("+name", name);
 	  if (!(Permissions == null)){
 		  String world = player.getWorld().getName();
 		  String group = Permissions.getGroup(world, player.getName());
@@ -119,7 +119,7 @@ public class FakeMessage extends JavaPlugin
 		  out = out.replace("+suffix", suffix);
 		  out = out.replace("+world", world);
 	  }
-	  out = out.replace("&", "¤");
+	  out = out.replace("&", "¤").replace("+message", message);
 	  if (display) System.out.println(out);
 	  return out;
   }
