@@ -50,6 +50,7 @@ public class CommandHandler implements CommandExecutor {
 			  if (args.length < 1){
 				  if (players.containsKey(((Player)player).getName())){
 					  players.remove(((Player)player).getName());
+					  player.sendMessage(ChatColor.GREEN + "You are now not faking anything.");
 					  return true;
 				  }else {
 					  return false;
@@ -57,6 +58,7 @@ public class CommandHandler implements CommandExecutor {
 			  }
 			  if (players.containsKey(((Player)player).getName())) players.remove(((Player)player).getName());
 			  players.put(((Player)player).getName(), args[0]);
+			  player.sendMessage(ChatColor.GREEN + "You are now faking the player '" + args[0] + "'.");
 		  }
 	  return true;
   }

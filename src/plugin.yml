@@ -2,7 +2,7 @@ name: FakeMessage
 
 main: com.niccholaspage.FakeMessage.FakeMessage
 
-version: 0.4
+version: 0.5
 
 commands:
   fsay:
