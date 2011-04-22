@@ -97,7 +97,7 @@ public class FakeMessage extends JavaPlugin
 	  if (getServer().getPlayer(name) == null){
 		  CraftServer cServer = (CraftServer)getServer();
 		  CraftWorld cWorld = (CraftWorld)getServer().getWorlds().get(0);
-		  EntityPlayer fakeEntityPlayer = new EntityPlayer(cServer.getHandle().c,cWorld.getHandle(),name,new ItemInWorldManager(cWorld.getHandle()));
+		  EntityPlayer fakeEntityPlayer = new EntityPlayer(cServer.getHandle().server,cWorld.getHandle(),name,new ItemInWorldManager(cWorld.getHandle()));
 		  player = (Player)fakeEntityPlayer.getBukkitEntity();
 	  }else {
 		  player = getServer().getPlayer(name);
