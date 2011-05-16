@@ -21,6 +21,7 @@ public class CommandHandler implements CommandExecutor {
 		  for (int i = 0; i < args.length; i++){
 			  Args.add(args[i]);
 		  }
+		  String name = (player instanceof Player) ? ((Player)player).getName() : "CONSOLE";
 		  if (cmd.getName().equalsIgnoreCase("fsay")){
 			  if (!(pl.hasPermission(player, "fakemessage.say"))) return true;
 			  if (args.length < 2) return false;
@@ -28,14 +29,10 @@ public class CommandHandler implements CommandExecutor {
 			  pl.getServer().broadcastMessage(pl.formatMessage(pl.messageFormat, args[0], pl.arrayListToString(Args, " "),true));
 		  }else if ((cmd.getName().equalsIgnoreCase("fjoin")) || (cmd.getName().equalsIgnoreCase("fj"))){
 			  if (!(pl.hasPermission(player, "fakemessage.join"))) return true;
-			  //TODO: Without any arguments, make the player who called it join
-			  if (args.length < 1) return false;
-			  pl.getServer().broadcastMessage(pl.formatMessage(pl.joinGame, args[0], "", true));
+			  pl.getServer().broadcastMessage(pl.formatMessage(pl.joinGame, args.length < 1 ? name: args[0], "", true));
 		  }else if ((cmd.getName().equalsIgnoreCase("fleave")) || (cmd.getName().equalsIgnoreCase("fl"))){
 			  if (!(pl.hasPermission(player, "fakemessage.leave"))) return true;
-			  //TODO: Without any arguments, make the player who called it leave
-			  if (args.length < 1) return false;
-			  pl.getServer().broadcastMessage(pl.formatMessage(pl.leftGame, args[0], "", true));
+			  pl.getServer().broadcastMessage(pl.formatMessage(pl.leftGame, args.length < 1 ? name: args[0], "", true));
 		  }else if (cmd.getName().equalsIgnoreCase("fmsg")){
 			  if (!(pl.hasPermission(player, "fakemessage.message"))) return true;
 			  if (args.length < 3) return false;
