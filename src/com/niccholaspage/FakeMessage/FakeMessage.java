@@ -25,13 +25,14 @@ import org.bukkit.util.config.Configuration;
 
 public class FakeMessage extends JavaPlugin
 {
-  public static PermissionHandler Permissions = null;
+  public PermissionHandler permissions = null;
   public FakeMessagePlayerListener playerListener = new FakeMessagePlayerListener(this);
   public CommandHandler commandHandler = new CommandHandler(this);
-  String messageFormat;
-  String privateMessageFormat;
-  String joinGame;
-  String leftGame;
+  public String messageFormat;
+  public String privateMessageFormat;
+  public String joinGame;
+  public String leftGame;
+  public boolean permissions30;
 
   public void onDisable()
   {
@@ -76,9 +77,10 @@ public class FakeMessage extends JavaPlugin
   public void setupPermissions() {
     Plugin test = getServer().getPluginManager().getPlugin("Permissions");
 
-    if (Permissions == null)
+    if (permissions == null)
       if (test != null) {
-        Permissions = ((Permissions)test).getHandler();
+        permissions = ((Permissions)test).getHandler();
+        permissions30 = test.getDescription().getVersion().startsWith("3.0");
       } else {
         System.out.println("Permission system not enabled. FakeMessage commands will only work for OPs.");
       }
@@ -103,13 +105,26 @@ public class FakeMessage extends JavaPlugin
 		  player = getServer().getPlayer(name);
 	  }
 	  String out = str.replace("+name", name);
-	  if (!(Permissions == null)){
+	  if (!(permissions == null)){
 		  String world = player.getWorld().getName();
-		  String group = Permissions.getGroup(world, player.getName());
-		  String prefix = Permissions.getGroupPrefix(world, group);
-		  String suffix = Permissions.getGroupSuffix(world, group);
-		  String userPrefix = Permissions.getPermissionString(world, player.getName(), "prefix");
-		  String userSuffix = Permissions.getPermissionString(world, player.getName(), "suffix");
+		  String group;
+		  String prefix;
+		  String suffix;
+		  String userPrefix;
+		  String userSuffix;
+		  if (permissions30){
+			  group = permissions.getPrimaryGroup(world, player.getName());
+			  prefix = permissions.getGroupRawPrefix(world, group);
+			  suffix = permissions.getGroupRawSuffix(world, group);
+			  userPrefix = permissions.getUserPrefix(world, player.getName());
+			  userSuffix = permissions.getUserSuffix(world, player.getName());
+		  }else {
+			  group = permissions.getGroup(world, player.getName());
+			  prefix = permissions.getGroupPrefix(world, group);
+			  suffix = permissions.getGroupSuffix(world, group);
+			  userPrefix = permissions.getPermissionString(world, player.getName(), "prefix");
+			  userSuffix = permissions.getPermissionString(world, player.getName(), "suffix");
+		  }
 		  if (userPrefix != null) prefix = userPrefix;
 		  if (userSuffix != null) suffix = userSuffix;
 		  if (prefix == null) prefix = "";
@@ -127,20 +142,17 @@ public class FakeMessage extends JavaPlugin
   public Boolean hasPermission(CommandSender sender, String node){
 	  if (sender instanceof Player){
 		  Player player = (Player) sender;
-      if (!(Permissions == null)){
-          if (FakeMessage.Permissions.has(player, node)) return true;
+      if (!(permissions == null)){
+          if (permissions.has(player, node)) return true;
       }else if (player.isOp() == true) return true;
       return false;
 	  }else return true;
   }
   
   public Player getPlayerStartsWith(String startsWith){
-  	if (getServer().getOnlinePlayers().length == 0){
-  		return null;
-  	}
-  	for (int i = 0; i < getServer().getOnlinePlayers().length; i++){
-  		if (getServer().getOnlinePlayers()[i].getName().toLowerCase().startsWith(startsWith)){
-  			return getServer().getOnlinePlayers()[i];
+  	for (Player player : getServer().getOnlinePlayers()){
+  		if (player.getName().toLowerCase().startsWith(startsWith.toLowerCase())){
+  			return player;
   		}
   	}
   	return null;
